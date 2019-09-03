@@ -116,6 +116,8 @@ class MiCustomRemoteUserView(AuthRemoteUserView):
             }
         except jwt.exceptions.DecodeError:
             return(str(self.invalid_login_message))
+        except jwt.exceptions.ExpiredSignatureError:
+            return(str("The token has expired"))
         sm = self.appbuilder.sm
         role = sm.find_role(sm.auth_role_public)
         # If user has role beedata.SuperUser assign admin role
