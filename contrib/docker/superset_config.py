@@ -114,10 +114,8 @@ class MiCustomRemoteUserView(AuthRemoteUserView):
                 "last_name": username,
                 "email": f"{username}@beedata.cat"
             }
-        except jwt.exceptions.DecodeError:
-            return(str(self.invalid_login_message))
-        except jwt.exceptions.ExpiredSignatureError:
-            return(str("The token has expired"))
+        except (jwt.exceptions.ExpiredSignatureError, jwt.exceptions.DecodeError):
+            return redirect("https://dashboard.bee.iskra.cat/login")
         sm = self.appbuilder.sm
         role = sm.find_role(sm.auth_role_public)
         # If user has role beedata.SuperUser assign admin role
@@ -148,7 +146,7 @@ class MiCustomRemoteUserView(AuthRemoteUserView):
                 # Log in if user exists
                 login_user(user)
                 return redirect(self.appbuilder.get_url_for_index)
-        return(str(self.invalid_login_message))
+        return redirect("https://dashboard.bee.iskra.cat/login")
 
 
 class MiCustomSecurityManager(SupersetSecurityManager):
