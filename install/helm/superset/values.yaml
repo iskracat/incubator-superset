@@ -27,7 +27,7 @@ image:
   pullPolicy: IfNotPresent
 
 service:
-  type: NodePort
+  type: ClusterIP
   port: 8088
 
 ingress:
@@ -60,3 +60,13 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+postgresql:
+  user: bi
+  database: storage
+  host: postgres-bi-dev-postgresql.dev.svc
+  port: 5432
+
+redis:
+  host: redis-superset-master.dev.svc
+  port: 6379
