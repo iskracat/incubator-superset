@@ -86,6 +86,8 @@ class MiCustomRemoteUserView(AuthRemoteUserView):
     def login(self):
         jwt_options = {'verify_signature': False}
         token = request.args.get('token', '')
+        if not token:
+            redirect("https://dashboard.bee.iskra.cat/")
         try:
             # Get the token from the url
             token_decoded = jwt.decode(token, options=jwt_options)
@@ -133,7 +135,7 @@ class MiCustomRemoteUserView(AuthRemoteUserView):
                 # Log in if user exists
                 login_user(user)
                 return redirect(self.appbuilder.get_url_for_index)
-        return redirect("https://dashboard.bee.iskra.cat/login")
+        return redirect("https://dashboard.bee.iskra.cat/")
 
 
 class MiCustomSecurityManager(SupersetSecurityManager):
